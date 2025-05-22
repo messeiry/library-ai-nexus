@@ -1,4 +1,3 @@
-
 export type Book = {
   id: string;
   title: string;
@@ -8,6 +7,13 @@ export type Book = {
   publishedYear: number;
   genre: string;
   isbn: string;
+  pages?: number;
+  language?: string;
+  publisher?: string;
+  rating?: number;
+  checked_out?: boolean;
+  checkout_date?: string | null;
+  due_date?: string | null;
 };
 
 export type AISummary = {

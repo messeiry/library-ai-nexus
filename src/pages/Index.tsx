@@ -45,7 +45,14 @@ const Index = () => {
         description: book.description || "",
         publishedYear: new Date(book.publish_date).getFullYear(),
         genre: book.genre,
-        isbn: book.isbn
+        isbn: book.isbn,
+        pages: book.pages,
+        language: book.language,
+        publisher: book.publisher,
+        rating: book.rating,
+        checked_out: book.checked_out,
+        checkout_date: book.checkout_date,
+        due_date: book.due_date
       }));
       
       setFilteredBooks(mappedBooks);

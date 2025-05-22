@@ -1,18 +1,30 @@
-# Welcome to your Lovable project
+# Library AI Nexus
+
+A modern library management system with AI-powered search capabilities and full administrative features.
+
+## Features
+
+### User Features
+- **AI-Powered Search**: Search for books using natural language queries
+- **Smart Results**: Get AI-generated summaries of search results
+- **Book Details**: View comprehensive book information including availability status
+- **Checkout Status**: See if a book is available, when it was checked out, and when it's due back
+
+### Admin Features
+- **Book Management**: Complete CRUD operations for managing the library inventory
+- **Real-time API Integration**: All operations directly connect to backend services
+- **Book Details Management**: Update comprehensive book information including:
+  - Title, author, description
+  - Genre, ISBN, publisher
+  - Page count, language, rating
+  - Publication date
+  - Checkout status
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/4acd3b85-586f-4531-a511-b32b578b5544
+This project was built with [Lovable](https://lovable.dev/projects/4acd3b85-586f-4531-a511-b32b578b5544).
 
 ## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/4acd3b85-586f-4531-a511-b32b578b5544) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
@@ -50,24 +62,38 @@ npm run dev
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## What technologies are used for this project?
+## Technology Stack
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Frontend**: React with TypeScript
+- **UI Components**: Custom shadcn/ui components
+- **Styling**: Tailwind CSS
+- **State Management**: React Hooks
+- **Routing**: React Router
+- **API Integration**: Native Fetch API
+- **Build Tool**: Vite
 
-## How can I deploy this project?
+## API Integration
 
-Simply open [Lovable](https://lovable.dev/projects/4acd3b85-586f-4531-a511-b32b578b5544) and click on Share -> Publish.
+The application integrates with a backend API hosted at `http://shoppychatbot.duckdns.org:3055` with the following endpoints:
 
-## Can I connect a custom domain to my Lovable project?
+### Book Search
+- **GET** `/search?query={searchTerm}` - Search books using keywords
+- **GET** `/rag?query={searchTerm}` - Get AI-generated summary of search results
 
-Yes, you can!
+### Book Management
+- **GET** `/books/{id}` - Get detailed information about a specific book
+- **GET** `/books?limit={limit}&offset={offset}` - List books with pagination
+- **POST** `/books/create` - Create a new book
+- **POST** `/books/update` - Update an existing book
+- **DELETE** `/books/{id}` - Delete a book
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Future Enhancements
+
+- User authentication and role-based access control
+- Book checkout functionality
+- User borrowing history
+- Advanced filtering and sorting options
+- Reading lists and recommendations

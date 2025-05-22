@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Book } from "@/types/book";
 import { Button } from "@/components/ui/button";
@@ -20,14 +19,22 @@ export const BookForm = ({ initialData, onSubmit, onCancel }: BookFormProps) => 
     description: initialData?.description || "",
     publishedYear: initialData?.publishedYear || new Date().getFullYear(),
     genre: initialData?.genre || "",
-    isbn: initialData?.isbn || ""
+    isbn: initialData?.isbn || "",
+    pages: initialData?.pages || 1,
+    language: initialData?.language || "English",
+    publisher: initialData?.publisher || "",
+    rating: initialData?.rating,
+    checked_out: initialData?.checked_out || false,
+    checkout_date: initialData?.checkout_date || null,
+    due_date: initialData?.due_date || null
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === "publishedYear" ? parseInt(value) || 0 : value
+      [name]: name === "publishedYear" || name === "pages" ? parseInt(value) || 0 : 
+              name === "rating" ? parseFloat(value) || 0 : value
     }));
   };
 
@@ -108,6 +115,55 @@ export const BookForm = ({ initialData, onSubmit, onCancel }: BookFormProps) => 
             onChange={handleChange}
             placeholder="978-3-16-148410-0"
             required
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="publisher">Publisher</Label>
+          <Input
+            id="publisher"
+            name="publisher"
+            value={formData.publisher}
+            onChange={handleChange}
+            placeholder="Publishing House"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="language">Language</Label>
+          <Input
+            id="language"
+            name="language"
+            value={formData.language}
+            onChange={handleChange}
+            placeholder="English"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="pages">Pages</Label>
+          <Input
+            id="pages"
+            name="pages"
+            type="number"
+            value={formData.pages}
+            onChange={handleChange}
+            placeholder="Number of pages"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="rating">Rating (1-5)</Label>
+          <Input
+            id="rating"
+            name="rating"
+            type="number"
+            min="1"
+            max="5"
+            step="0.1"
+            value={formData.rating || ""}
+            onChange={handleChange}
+            placeholder="Book rating"
           />
         </div>
       </div>
