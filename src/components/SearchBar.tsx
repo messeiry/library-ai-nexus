@@ -27,7 +27,7 @@ export const SearchBar = ({ onSearch, onAskAI }: SearchBarProps) => {
           <Input
             type="text"
             placeholder="Search books, authors, genres..."
-            className="w-full pl-12 pr-4 py-3 text-base rounded-full border-2 border-gray-200 focus-visible:ring-library-primary focus-visible:border-library-primary shadow-sm"
+            className="w-full pl-12 pr-4 py-3 h-12 text-base rounded-full border-2 border-gray-200 focus-visible:ring-library-primary focus-visible:border-library-primary shadow-sm"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -37,7 +37,7 @@ export const SearchBar = ({ onSearch, onAskAI }: SearchBarProps) => {
         </div>
         <Button 
           type="submit" 
-          className="bg-gradient-to-r from-library-primary to-library-secondary hover:from-library-primary/90 hover:to-library-secondary/90 text-white rounded-full py-6 px-6 font-medium shadow-md hover:shadow-lg transition-all"
+          className="bg-gradient-to-r from-library-primary to-library-secondary hover:from-library-primary/90 hover:to-library-secondary/90 text-white rounded-full h-12 px-6 font-medium shadow-md hover:shadow-lg transition-all"
         >
           <Sparkles className="h-5 w-5 mr-2" />
           Search with AI
