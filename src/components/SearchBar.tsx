@@ -14,11 +14,8 @@ export const SearchBar = ({ onSearch, onAskAI }: SearchBarProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch(query);
-  };
-
-  const handleAIClick = () => {
     if (query.trim()) {
+      onSearch(query);
       onAskAI(query);
     }
   };
@@ -38,23 +35,13 @@ export const SearchBar = ({ onSearch, onAskAI }: SearchBarProps) => {
             <Search className="h-5 w-5 text-gray-400" />
           </div>
         </div>
-        <div className="flex gap-3">
-          <Button 
-            type="submit" 
-            className="bg-library-primary hover:bg-library-primary/90 text-white rounded-full py-6 px-6 font-medium shadow-md hover:shadow-lg transition-all"
-          >
-            <Search className="h-5 w-5 mr-2" />
-            Search
-          </Button>
-          <Button
-            type="button"
-            onClick={handleAIClick}
-            className="bg-gradient-to-r from-library-primary to-library-secondary hover:from-library-primary/90 hover:to-library-secondary/90 text-white rounded-full py-6 px-6 font-medium shadow-md hover:shadow-lg transition-all"
-          >
-            <Sparkles className="h-5 w-5 mr-2" />
-            AI Vibes
-          </Button>
-        </div>
+        <Button 
+          type="submit" 
+          className="bg-gradient-to-r from-library-primary to-library-secondary hover:from-library-primary/90 hover:to-library-secondary/90 text-white rounded-full py-6 px-6 font-medium shadow-md hover:shadow-lg transition-all"
+        >
+          <Sparkles className="h-5 w-5 mr-2" />
+          Search with AI
+        </Button>
       </div>
     </form>
   );
