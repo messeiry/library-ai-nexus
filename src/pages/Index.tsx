@@ -1,15 +1,14 @@
-
 import { useState } from "react";
 import { Book, AISummary as AISummaryType } from "@/types/book";
-import { mockBooks } from "@/data/books";
 import { Header } from "@/components/Header";
 import { SearchBar } from "@/components/SearchBar";
 import { AISummary } from "@/components/AISummary";
 import { BookList } from "@/components/BookList";
 import { toast } from "@/hooks/use-toast";
 
+const BASE_API_URL = "http://shoppychatbot.duckdns.org:3055";
+
 const Index = () => {
-  const [books, setBooks] = useState<Book[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,82 +16,63 @@ const Index = () => {
   const [aiSummary, setAiSummary] = useState<AISummaryType | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
 
-  const handleSearch = (query: string) => {
+  const handleSearch = async (query: string) => {
     setSearchQuery(query);
     setIsLoading(true);
+    setIsAiLoading(true);
     setShowResults(true);
     setAiSummary(null);
     
-    // Simulate API call with timeout
-    setTimeout(() => {
-      const results = mockBooks.filter(book => 
-        book.title.toLowerCase().includes(query.toLowerCase()) ||
-        book.author.toLowerCase().includes(query.toLowerCase()) ||
-        book.genre.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredBooks(results);
-      setIsLoading(false);
-    }, 800);
-  };
-
-  const handleAskAI = (query: string) => {
-    setSearchQuery(query);
-    setIsAiLoading(true);
-    setIsLoading(true);
-    setShowResults(true);
-    
-    // Simulate API call with timeout
-    setTimeout(() => {
-      const results = mockBooks.filter(book => 
-        book.title.toLowerCase().includes(query.toLowerCase()) ||
-        book.author.toLowerCase().includes(query.toLowerCase()) ||
-        book.genre.toLowerCase().includes(query.toLowerCase())
-      );
+    // Make both API calls in parallel
+    try {
+      const [booksResponse, aiResponse] = await Promise.all([
+        fetch(`${BASE_API_URL}/search?query=${encodeURIComponent(query)}`),
+        fetch(`${BASE_API_URL}/rag?query=${encodeURIComponent(query)}`)
+      ]);
       
-      setFilteredBooks(results);
+      if (!booksResponse.ok) throw new Error('Failed to fetch books');
+      if (!aiResponse.ok) throw new Error('Failed to fetch AI summary');
+      
+      const books = await booksResponse.json();
+      const aiData = await aiResponse.json();
+      
+      // Map the API response to match our Book type
+      const mappedBooks = books.map((book: any) => ({
+        id: book.id.toString(),
+        title: book.title,
+        author: book.author,
+        coverUrl: `https://picsum.photos/seed/${book.id}/300/450`, // Generate random cover image
+        description: book.description || "",
+        publishedYear: new Date(book.publish_date).getFullYear(),
+        genre: book.genre,
+        isbn: book.isbn
+      }));
+      
+      setFilteredBooks(mappedBooks);
       setIsLoading(false);
       
-      // Generate mock AI summary
-      setTimeout(() => {
-        // Create AI summary based on the query and found books
-        const summary = generateMockAISummary(query, results);
-        setAiSummary(summary);
-        setIsAiLoading(false);
-        
-        toast({
-          title: "AI Summary Generated",
-          description: "The AI has analyzed your search results.",
-        });
-      }, 1200);
-    }, 800);
-  };
-
-  // Function to generate mock AI summary based on query and results
-  const generateMockAISummary = (query: string, results: Book[]): AISummaryType => {
-    if (results.length === 0) {
-      return {
-        query,
-        text: `I couldn't find any books matching "${query}". Try searching for a different term, or check if there are any spelling errors in your query.`
-      };
+      // Set AI summary
+      setAiSummary({
+        query: aiData.query,
+        text: aiData.response
+      });
+      setIsAiLoading(false);
+      
+      toast({
+        title: "Search Complete",
+        description: "Found results for your search query.",
+      });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+      setIsAiLoading(false);
+      
+      toast({
+        title: "Error",
+        description: "Failed to fetch search results. Please try again.",
+        variant: "destructive"
+      });
     }
-    
-    const genres = [...new Set(results.map(book => book.genre))];
-    const authors = [...new Set(results.map(book => book.author))];
-    const oldestBook = results.reduce((oldest, book) => 
-      book.publishedYear < oldest.publishedYear ? book : oldest, results[0]);
-    const newestBook = results.reduce((newest, book) => 
-      book.publishedYear > newest.publishedYear ? book : newest, results[0]);
-      
-    return {
-      query,
-      text: `I found ${results.length} books matching your search for "${query}". ${
-        genres.length > 1 
-          ? `These books span across ${genres.length} genres including ${genres.join(", ")}.` 
-          : `All of these books are in the ${genres[0]} genre.`
-      } The collection features work by ${authors.length > 1 ? `authors such as ${authors.join(", ")}` : `${authors[0]}`}, 
-      with publication dates ranging from ${oldestBook.publishedYear} to ${newestBook.publishedYear}. 
-      ${results.length > 0 ? `"${results[0].title}" is a noteworthy example that might interest you.` : ""}`
-    };
   };
 
   return (
@@ -111,7 +91,7 @@ const Index = () => {
                 Search our vast library catalog and get AI-powered insights to help you find your next great read.
               </p>
               
-              <SearchBar onSearch={handleSearch} onAskAI={handleAskAI} />
+              <SearchBar onSearch={handleSearch} />
             </div>
           </div>
         </section>

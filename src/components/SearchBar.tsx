@@ -6,17 +6,15 @@ import { Search, Sparkles } from "lucide-react";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
-  onAskAI: (query: string) => void;
 }
 
-export const SearchBar = ({ onSearch, onAskAI }: SearchBarProps) => {
+export const SearchBar = ({ onSearch }: SearchBarProps) => {
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
       onSearch(query);
-      onAskAI(query);
     }
   };
 
