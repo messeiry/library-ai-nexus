@@ -64,9 +64,9 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				library: {
-					primary: '#1e3a8a',
-					secondary: '#6b7280',
-					accent: '#3b82f6',
+					primary: '#8b5cf6', // Changed to purple
+					secondary: '#ec4899', // Changed to pink
+					accent: '#06b6d4', // Changed to cyan
 					background: '#f8fafc',
 					card: '#ffffff'
 				}
@@ -96,12 +96,35 @@ export default {
 				'fade-in': {
 					'0%': { opacity: '0' },
 					'100%': { opacity: '1' }
+				},
+				'bounce-in': {
+					'0%': { 
+						transform: 'scale(0.8)', 
+						opacity: '0' 
+					},
+					'70%': { 
+						transform: 'scale(1.05)', 
+						opacity: '1' 
+					},
+					'100%': { 
+						transform: 'scale(1)', 
+						opacity: '1' 
+					}
+				},
+				'shimmer': {
+					'0%': { backgroundPosition: '-500px 0' },
+					'100%': { backgroundPosition: '500px 0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in': 'fade-in 0.5s ease-out'
+				'fade-in': 'fade-in 0.5s ease-out',
+				'bounce-in': 'bounce-in 0.5s ease-out',
+				'shimmer': 'shimmer 2s infinite linear'
+			},
+			fontFamily: {
+				'poppins': ['Poppins', 'sans-serif']
 			}
 		}
 	},
