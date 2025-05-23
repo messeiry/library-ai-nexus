@@ -22,13 +22,13 @@ A modern library management system with AI-powered search capabilities and full 
 
 ## Project info
 
-This project was built with [Lovable](https://lovable.dev/projects/4acd3b85-586f-4531-a511-b32b578b5544).
+BookVibe - A modern library management system with AI capabilities.
 
 ## How can I edit this code?
 
 **Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+If you want to work locally using your own IDE, you can clone this repo and push changes.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 

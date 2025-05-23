@@ -312,7 +312,7 @@ const AdminPage = () => {
       
       <footer className="bg-white border-t py-4">
         <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-          © 2025 LibraryAI Admin Panel. All rights reserved.
+          © 2025 BookVibe. All rights reserved.
         </div>
       </footer>
     </div>
